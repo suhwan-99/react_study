@@ -9,3 +9,13 @@
   background-color: black;
   padding: 15px;
 }
+.list {
+  padding-left: 20px;
+  border-bottom: 1px solid lightgray;
+}
+.list > h4, .list > p {
+  margin-top: 15px;
+}
+button {
+  margin-left: 10px;
+}
