@@ -10,18 +10,53 @@ function App() {
   // usexxxx: use로 시작하는 것들은 리액트 내장함수 ( 리액트 훅 )
   const [title, setTitle] = useState('게시판');
   const [boardtitle, setBoardTitle] = useState(['React', 'HTML', 'CSS']);
-  const [like, setLike] = useState(0);
+  const [like, setLike] = useState([0,0,0]);
   const [show, setShow] = useState(false);
-
+  // 몇번째 게시글을 클릭한지 저장
+  const [index, setIndex] = useState(0);
+  function test() {
+    alert('aaa');
+  }
+  
   return (
     <div className='App'>
+
+      {/* {
+      반복용 코드 ( .map ( () => {}  )  )
+        arr.map( (data) => {
+          return (
+            <div> {data}
+              <p>{data + 10}</p>
+            </div>
+          );
+          
+        })
+      } */}
       <div className='nav'>
         <h3>{title}</h3>
       </div>
       <button onClick={() =>{
         setTitle('상품목록');
       }}>제목 바꾸기</button>
-      <div className='list'>
+      {
+      boardtitle.map( (title, i) => {
+          return (
+            <div className='list' key={i}>
+            <h4 onClick={ () => {
+              setShow(!show);
+              setIndex(i);
+            }}>{title}<button onClick={ (e) => {
+              e.stopPropagation();
+              like[i] =like[i] + 1;
+              let like_ = [...like];
+              setLike(like_);
+            }}>좋아요 </button>{like[i]}</h4>
+            <p>2025-07-16</p>
+            </div>
+          )
+        })
+      }
+      {/* <div className='list'>
         <h4>{boardtitle[0]} 
           <button onClick={() => {
             setLike(like + 1)
@@ -33,9 +68,9 @@ function App() {
         <p>2025-07-16</p>
       </div>
       <div className='list'>
-        <h4 onClick={ ('click')}>{boardtitle[2]}</h4>
+        <h4>{boardtitle[2]}</h4>
         <p>2025-07-16</p>
-      </div>
+      </div> */}
 
       <button onClick={() => {
         // 배열에 들어있는 값을 바꾸기 위해선 배열값만 바꿔달라는게 아니라 배열값의 
@@ -57,8 +92,8 @@ function App() {
         boardtitle_[2] = '3번 게시물';
         setBoardTitle(boardtitle_);
         }}>세번째 게시물 제목 바꾸기</button>
-
-        { show ? <Detail /> : ''}
+        
+        {show ? <Detail boardtitle = {boardtitle} setBoardTitle = {setBoardTitle} index = {index} /> : ''}
     </div>
   )
 }
