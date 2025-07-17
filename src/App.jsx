@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Detail from './Detail';
+import APP02 from './APP02';
 
 function App() {
   // state 만드는 방법
@@ -14,13 +15,11 @@ function App() {
   const [show, setShow] = useState(false);
   // 몇번째 게시글을 클릭한지 저장
   const [index, setIndex] = useState(0);
-  function test() {
-    alert('aaa');
-  }
-  
+  // 새로운 글작성 제목을 기억
+  const [newTitle, setNewTitle] = useState('');
   return (
     <div className='App'>
-
+        <APP02 />
       {/* {
       반복용 코드 ( .map ( () => {}  )  )
         arr.map( (data) => {
@@ -52,6 +51,15 @@ function App() {
               setLike(like_);
             }}>좋아요 </button>{like[i]}</h4>
             <p>2025-07-16</p>
+
+            <button onClick={() => {
+              let boardtitle_= [...boardtitle];
+              boardtitle_.splice(i,1);
+              setBoardTitle(boardtitle_);
+              let like_ = [...like];
+              like_.splice(i,1);
+              setLike(like_);
+            }}>삭제</button>
             </div>
           )
         })
@@ -94,6 +102,23 @@ function App() {
         }}>세번째 게시물 제목 바꾸기</button>
         
         {show ? <Detail boardtitle = {boardtitle} setBoardTitle = {setBoardTitle} index = {index} /> : ''}
+        <input type="text" value={newTitle} onChange={(e) => {
+          setNewTitle(e.target.value);
+        }}/>
+        <button onClick={ () => {
+          if(newTitle === '') {
+            alert('제목을 입력해야 합니다.');
+            return;
+          }
+          let boardtitle_ = [...boardtitle];
+          boardtitle_.push(newTitle);
+          setBoardTitle(boardtitle_);
+          let like_ = [...like];
+          like_.push(0);
+          setLike(like_);
+          
+          setNewTitle('');
+        }}>글 작성</button>
     </div>
   )
 }
